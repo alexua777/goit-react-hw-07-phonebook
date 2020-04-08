@@ -28,6 +28,15 @@ const filter = createReducer("", {
   [phoneActions.filterPhone]: (state, action) => action.payload
 });
 
-export default { contacts, filter };
+const error = createReducer(null, {
+  [phoneActions.addContactError]: (state,action) => action.payload,
+  [phoneActions.removeContactError] :(state,action) => action.payload,
+  [phoneActions.fetchContactsError]:(state,action) => action.payload,   
+  [phoneActions.fetchContactsSuccess]: () => null,
+  [phoneActions.addContactSuccess]:() => null,
+  [phoneActions.filterPhone]:() => null,
+})
+
+export default { contacts, filter,error };
 
 

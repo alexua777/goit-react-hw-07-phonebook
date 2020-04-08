@@ -12,7 +12,8 @@ const md1 = store => next =>  action => {
 const store = configureStore({
   reducer:{
     contacts:rootReducer.contacts,
-    filter:rootReducer.filter
+    filter:rootReducer.filter,
+    error:rootReducer.error,
   },
   middleware:[...defaultMiddleware],
 })
