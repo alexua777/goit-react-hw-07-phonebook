@@ -6,11 +6,16 @@ import Filter from "./components/Filter";
 import Layout from "./components/Layout";
 import ThemeContext from "./context/ThemeContext";
 import { themeConfig } from "./context/ThemeContext";
+import contactOperations from "./redux/phonebook/contactOperations"
 
  class App extends Component {
   state = {
     theme: "light"
   };
+
+  componentDidMount(){
+    this.props.onFetchContacts();
+  }
 
   changeTheme = () => {
     this.setState(state => ({
@@ -42,6 +47,13 @@ import { themeConfig } from "./context/ThemeContext";
 
 const mapStateToProps = state => ({
   contacts: state.contacts,
-})
+  
+});
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = {
+  onFetchContacts:contactOperations.fetchContacts,
+}
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

@@ -2,8 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 import phoneActions from "./phoneActions";
 
 const onAddContact = (state, action) => {
-  console.log(action);
-  const contactCheck = state.some(
+   const contactCheck = state.some(
     contact => contact.name === action.payload.name
   );
   if (contactCheck) {
@@ -13,12 +12,16 @@ const onAddContact = (state, action) => {
   }
 };
 
-const onRemoveContact = (state, action) =>
-  state.filter(contacts => contacts.id !== action.payload);
+const removeContact = (state, action) => {
+  state.filter(contact => contact.id !== action.payload.id);
+ 
+}
+  
 
 const contacts = createReducer([], {
+  [phoneActions.fetchContactsSuccess]:(state,action) => action.payload,
   [phoneActions.addContactSuccess]: onAddContact,
-  [phoneActions.removePhone]: onRemoveContact
+  [phoneActions.removeContactSuccess]: removeContact
 });
 
 const filter = createReducer("", {
