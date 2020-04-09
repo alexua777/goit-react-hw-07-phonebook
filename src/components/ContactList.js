@@ -22,7 +22,7 @@ const ContactList = ({ contacts, onRemoveContact }) => (
         {contacts.map((contact) => (
           <li key={contact.id} style={itemStyle}>
             <p>
-              {contact.name} : {contact.number}
+        {contact.id} : {contact.name} : {contact.number}
             </p>
             <button type="submit" onClick={() => onRemoveContact(contact.id)}>
               Remove
