@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import phoneActions from "../redux/phonebook/phoneActions";
+import contactsSelectors from "../redux/phonebook/contactsSelectors";
 
 const container = {
   margin: "25px",
@@ -41,7 +42,7 @@ Filter.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  value: state.filter
+  value: contactsSelectors.getFilter(state),
 });
 
 const mapDispatchToProps = {

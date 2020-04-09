@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
+import contactsSelectors from '../redux/phonebook/contactsSelectors'
 import phoneOperations from "../redux/phonebook/contactOperations";
 
 const container = {
@@ -37,7 +37,7 @@ const ContactList = ({ contacts, onRemoveContact }) => (
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       number: PropTypes.string.isRequired,
     })
@@ -45,16 +45,9 @@ ContactList.propTypes = {
   onRemoveContact: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const { contacts, filter } = state;
-  const visibleContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
-  );
-
-  return {
-    contacts: visibleContacts,
-  };
-};
+const mapStateToProps = (state) => ({
+  contacts: contactsSelectors.getVisibleContacts(state),
+});
 
 const mapDispatchToProps = {
   onRemoveContact: phoneOperations.removeContact,

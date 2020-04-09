@@ -9,9 +9,9 @@ const fetchContactsSuccess = createAction('contacts/fetchSuccess');
 const fetchContactsError = createAction('contacts/fetchError');
 
 
-const removeContactRequest = createAction("contactRemove/request");
-const removeContactSuccess = createAction("contactRemove/success");
-const removeContactError = createAction("contactRemove/error");
+const removeContactRequest = createAction("contact/removeRequest");
+const removeContactSuccess = createAction("contact/removeSuccess");
+const removeContactError = createAction("contact/removeError");
 
 const filterPhone = createAction("contact/filter");
 

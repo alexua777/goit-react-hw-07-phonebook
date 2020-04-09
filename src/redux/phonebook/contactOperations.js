@@ -12,26 +12,21 @@ const addContact = (name, number) => (dispatch) => {
     .catch((error) => dispatch(phoneActions.addContactError(error)));
 };
 
-const removeContact = id => dispatch => {
-    dispatch(phoneActions.removeContactRequest());
-  
-    axios
-      .delete(`/contacts/${id}`)
-      .then(() => dispatch(phoneActions.removeContactSuccess(id)))
-      .catch(error => dispatch(phoneActions.removeContactError(error)));
-  };
+const removeContact = (id) => (dispatch) => {
+  dispatch(phoneActions.removeContactRequest());
 
-
+  axios
+    .delete(`/contacts/${id}`)
+    .then(() => dispatch(phoneActions.removeContactSuccess(id)))
+    .catch((error) => dispatch(phoneActions.removeContactError(error)));
+};
 
 const fetchContacts = () => (dispatch) => {
   dispatch(phoneActions.fetchContactsRequest());
 
   axios
     .get("/contacts")
-    .then(({ data }) => {
-      console.log(data);
-      dispatch(phoneActions.fetchContactsSuccess(data));
-    })
+    .then(({ data }) => dispatch(phoneActions.fetchContactsSuccess(data)))
     .catch((error) => dispatch(phoneActions.fetchContactsError(error)));
 };
 
