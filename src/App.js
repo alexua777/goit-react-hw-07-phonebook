@@ -1,42 +1,41 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 import PhoneBook from "./components/PhoneBook";
 import ContactList from "./components/ContactList";
-import Filter from "./components/Filter";
+
 import Layout from "./components/Layout";
 import ThemeContext from "./context/ThemeContext";
 import { themeConfig } from "./context/ThemeContext";
-import contactOperations from "./redux/phonebook/contactOperations"
+import contactOperations from "./redux/phonebook/contactOperations";
+import contactsSelectors from "./redux/phonebook/contactOperations";
 
- class App extends Component {
+class App extends Component {
   state = {
-    theme: "light"
+    theme: "light",
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.onFetchContacts();
+    
   }
 
   changeTheme = () => {
-    this.setState(state => ({
-      theme: state.theme === "light" ? "dark" : "light"
+    this.setState((state) => ({
+      theme: state.theme === "light" ? "dark" : "light",
     }));
   };
 
-  
   render() {
     return (
       <ThemeContext.Provider
         value={{
           theme: this.state.theme,
           config: themeConfig[this.state.theme],
-          onThemeChange: this.changeTheme
+          onThemeChange: this.changeTheme,
         }}
       >
         <Layout>
           <PhoneBook />
-          {this.props.contacts.length > 0 &&  <Filter />}
-         
 
           <ContactList />
         </Layout>
@@ -45,15 +44,8 @@ import contactOperations from "./redux/phonebook/contactOperations"
   }
 }
 
-const mapStateToProps = state => ({
-  contacts: state.contacts,
-  
-});
-
 const mapDispatchToProps = {
-  onFetchContacts:contactOperations.fetchContacts,
-}
+  onFetchContacts: contactOperations.fetchContacts,
+};
 
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

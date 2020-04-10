@@ -1,84 +1,74 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import phoneActions from "../redux/phonebook/phoneActions";
-import contactOperations from '../redux/phonebook/contactOperations';
-
-const container = {
-  margin: "25px"
-};
-const formStyle = {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-around",
-  width: "350px",
-  border: "2px solid grey",
-  padding: "10px",
-  boxShadow: "3px 2px 28px 6px rgba(0,0,0,0.75)",
-  fontfamily: "Arial"
-};
-
-const labelStyle = {
-  fontfamily: "'Open Sans', sans-serif"
-};
-
-const inputStyle = {
-  border: "1px solid black",
-  display: "inline-block",
-  height: "34px",
-  width: "220px",
-  boxSizing: "border-box",
-  padding: "0 18px",
-  marginBottom: "10px"
-};
-
-const buttonStyle = {
-  background: "linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%)",
-  backgroundColor: "#3d94f6",
-  borderRadius: "6px",
-  border: "1px solid #337fed",
-  cursor: "pointer",
-  color: "#ffffff",
-  fontFamily: "Arial",
-  fontSize: "16px",
-  fontWeight: "bold",
-  padding: "9px 76px",
-  textDecoration: "none",
-  marginTop: "10px"
-};
+import "../styles/FormStyle.css";
+import contactOperations from "../redux/phonebook/contactOperations";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import "../LogoAppear.css";
+import AlertTransisiton from "../styles/AlertTransisiton.module.css";
+import FilterTransition from "../styles/FilterTransition.module.css"
+import contactsSelectors from "../redux/phonebook/contactsSelectors";
+import Alert from "./Alert";
+import Filter from "./Filter";
 
 class PhoneBook extends Component {
   state = {
     name: "",
-    number: ""
+    number: "",
+    isExist: false,
   };
 
-  handleSubmit = e => {
+  checkIfContactExist = (name) =>
+    this.props.contacts.some((contact) => contact.name === name);
+
+  handleSubmit = (e) => {
     e.preventDefault();
+    if (this.checkIfContactExist(this.state.name)) {
+      this.setState({ isExist: true });
+      return;
+    }
     this.props.onAddContact(this.state.name, this.state.number);
     this.setState({ name: "", number: "" });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
   render() {
+    const { isExist, showFilter } = this.state;
+
     return (
       <>
-        <div style={container}>
-          <h1>Phonebook</h1>
-          <form onSubmit={this.handleSubmit} style={formStyle}>
-            <label style={labelStyle}>
+        <div className="Container">
+          <CSSTransition
+            in={true}
+            appear={true}
+            timeout={500}
+            classNames="Logo"
+          >
+            <h1 className="ContactList-title">Phonebook</h1>
+          </CSSTransition>
+          <CSSTransition
+            in={isExist}
+            timeout={1000}
+            classNames={AlertTransisiton}
+            onEntered={() => this.setState({ isExist: false })}
+            unmountOnExit
+          >
+            <Alert />
+          </CSSTransition>
+          <form onSubmit={this.handleSubmit} className="ContactList-form">
+            <label className="ContactList-label">
               Name <br />
               <input
                 type="text"
                 value={this.state.name}
                 onChange={this.handleChange}
                 name="name"
-                style={inputStyle}
+                className="ContactList-input"
               />
             </label>
 
@@ -90,22 +80,34 @@ class PhoneBook extends Component {
                 value={this.state.number}
                 onChange={this.handleChange}
                 name="number"
-                style={inputStyle}
+                className="ContactList-input"
               />
             </label>
-            <button type="submit" style={buttonStyle}>
+            <button type="submit" className="ContactList-button">
               {" "}
               Add contact
             </button>
           </form>
+          <CSSTransition
+            in={this.props.contacts.length > 0}
+            timeout={1000}
+            classNames={FilterTransition}
+            onEntered={() => this.setState({ isExist: false })}
+            unmountOnExit
+          >
+            <Filter />
+          </CSSTransition>
         </div>
       </>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  contacts: contactsSelectors.getContacts(state),
+});
 const mapDispatchToProps = {
-  onAddContact: contactOperations.addContact
+  onAddContact: contactOperations.addContact,
 };
 
-export default connect(null, mapDispatchToProps)(PhoneBook);
+export default connect(mapStateToProps, mapDispatchToProps)(PhoneBook);

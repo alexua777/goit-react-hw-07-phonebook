@@ -1,36 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import contactsSelectors from '../redux/phonebook/contactsSelectors'
+import contactsSelectors from "../redux/phonebook/contactsSelectors";
 import phoneOperations from "../redux/phonebook/contactOperations";
-
-const container = {
-  margin: "25px",
-  boxShadow: "3px 2px 28px 6px rgba(0,0,0,0.75)",
-  width: "370px",
-};
-
-const itemStyle = {
-  listStyle: "none",
-  padding: "5px",
-};
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import styles from "../styles/ContactList.module.css";
+import ListTransition from "../styles/TransitioStyle.module.css";
+import "../styles/FormStyle.css";
 
 const ContactList = ({ contacts, onRemoveContact }) => (
   <>
-    <div style={container}>
-      <ul>
-        {contacts.map((contact) => (
-          <li key={contact.id} style={itemStyle}>
-            <p>
-        {contact.id} : {contact.name} : {contact.number}
-            </p>
+    <TransitionGroup className={styles.list}>
+      {contacts.map((contact) => (
+        <CSSTransition
+          key={contact.id}
+          timeout={250}
+          classNames={ListTransition}
+        >
+          <li key={contact.id} className={styles.item}>
+            <p> {contact.name}</p>
+            <p>{contact.number} </p>
             <button type="submit" onClick={() => onRemoveContact(contact.id)}>
-              Remove
+              X
             </button>
           </li>
-        ))}
-      </ul>
-    </div>
+        </CSSTransition>
+      ))}
+    </TransitionGroup>
   </>
 );
 

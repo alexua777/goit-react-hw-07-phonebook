@@ -9,13 +9,4 @@ const getVisibleContacts = createSelector([getContacts, getFilter], (contacts, f
   );
 });
 
-// const getVisibleContacts = (state) => {
-//   const contacts = getContacts(state);
-//   const filter = getFilter(state).toLocaleLowerCase();
-
-//   return contacts.filter((contact) =>
-//     contact.name.toLowerCase().includes(filter)
-//   );
-// };
-
-export default { getFilter, getVisibleContacts };
+export default { getFilter, getContacts, getVisibleContacts };

@@ -15,6 +15,8 @@ const removeContactError = createAction("contact/removeError");
 
 const filterPhone = createAction("contact/filter");
 
+const contactCheck = createAction("contact/check");
+
 export default {
   addContactRequest,
   addContactSuccess,
@@ -25,6 +27,6 @@ export default {
   fetchContactsRequest,
   fetchContactsSuccess,
   fetchContactsError,
-
+  contactCheck,
   filterPhone,
 };

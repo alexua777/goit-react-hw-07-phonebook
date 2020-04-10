@@ -1,16 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 import phoneActions from "./phoneActions";
 
-const onAddContact = (state, action) => {
-  const contactCheck = state.some(
-    (contact) => contact.name === action.payload.name
-  );
-  if (contactCheck) {
-    alert("exisits");
-  } else {
-    return [...state, action.payload];
-  }
-};
+const onAddContact = (state, action) => [...state, action.payload];
 
 const removeContact = (state, action) =>
   state.filter((contact) => contact.id !== action.payload);
